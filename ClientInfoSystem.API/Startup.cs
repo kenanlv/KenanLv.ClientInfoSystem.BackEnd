@@ -1,4 +1,9 @@
+using ClientInfoSystem.Core.Entities;
+using ClientInfoSystem.Core.RepositoryInterfaces;
+using ClientInfoSystem.Core.ServiceInterfaces;
 using ClientInfoSystem.Infrastructure.Data;
+using ClientInfoSystem.Infrastructure.Repository;
+using ClientInfoSystem.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +40,17 @@ namespace ClientInfoSystem.API
             });
             services.AddDbContext<ClientInfoSysDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(("ClientInfoSysDbConnection"))));
+            // Add DI Repo
+            services.AddScoped<IAsyncRepository<Clients>, EfRepository<Clients>>();
+            services.AddScoped<IAsyncRepository<Employees>, EfRepository<Employees>>();
+            services.AddScoped<IAsyncRepository<Interactions>, EfRepository<Interactions>>();
+
+
+            // Add DI Service
+            services.AddScoped<IClientsService, ClientsService>();
+            services.AddScoped<IEmployeesService, EmployeesService>();
+            services.AddScoped<IInteractionsService, InteractionsService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +62,12 @@ namespace ClientInfoSystem.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClientInfoSystem.API v1"));
             }
-
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+            });
             app.UseRouting();
 
             app.UseAuthorization();

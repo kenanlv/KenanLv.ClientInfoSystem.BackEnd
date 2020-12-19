@@ -18,9 +18,4 @@
     <ProjectReference Include="..\ClientInfoSystem.Core\ClientInfoSystem.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>

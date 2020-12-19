@@ -43,12 +43,12 @@ namespace ClientInfoSystem.Infrastructure.Data
             builder.HasKey(i => i.Id);
             builder.
                 HasOne(i => i.Clients).
-                WithOne(c => c.Interactions).
-                HasForeignKey<Interactions>(i => i.ClientId);
+                WithMany(c => c.Interactions).
+                HasForeignKey(i => i.ClientId);
             builder.
                 HasOne(i => i.Employees).
-                WithOne(c => c.Interactions).
-                HasForeignKey<Interactions>(i => i.EmpId);
+                WithMany(c => c.Interactions).
+                HasForeignKey(i => i.EmpId);
             builder.Property(i => i.IntType).HasColumnType("char");
             builder.Property(i=>i.Remarks).HasMaxLength(500);
         }
