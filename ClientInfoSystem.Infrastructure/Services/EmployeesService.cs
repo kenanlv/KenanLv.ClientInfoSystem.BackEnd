@@ -14,9 +14,11 @@ namespace ClientInfoSystem.Infrastructure.Services
     public class EmployeesService : IEmployeesService
     {
         private readonly IAsyncRepository<Employees> _empRepository;
-        public EmployeesService(IAsyncRepository<Employees> empRepository)
+        private readonly IAsyncRepository<Interactions> _interRepository;
+        public EmployeesService(IAsyncRepository<Employees> empRepository, IAsyncRepository<Interactions> interRepository)
         {
             _empRepository = empRepository;
+            _interRepository = interRepository;
         }
         public async Task<EmployeeResponseModel> CreateEmp(EmployeeCreateRequestModel empCreateRequest)
         {
@@ -26,6 +28,11 @@ namespace ClientInfoSystem.Infrastructure.Services
         public async Task DeleteEmp(int id)
         {
             var ls = await _empRepository.GetByIdAsync(id);
+            var interList = await _interRepository.ListAsync(i => i.EmpId == id);
+            foreach (var inter in interList)
+            {
+                await _interRepository.DeleteAsync(inter);
+            }
             await _empRepository.DeleteAsync(ls);
         }
 

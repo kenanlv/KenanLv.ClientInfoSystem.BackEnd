@@ -14,9 +14,11 @@ namespace ClientInfoSystem.Infrastructure.Services
     public class ClientsService : IClientsService
     {
         private readonly IAsyncRepository<Clients> _clientRepository;
-        public ClientsService(IAsyncRepository<Clients> clientRepository)
+        private readonly IAsyncRepository<Interactions> _interRepository;
+        public ClientsService(IAsyncRepository<Clients> clientRepository, IAsyncRepository<Interactions> interRepository)
         {
             _clientRepository = clientRepository;
+            _interRepository = interRepository;
         }
         public async Task<ClientResponseModel> CreateClient(ClientCreateRequestModel clientCreateRequest)
         {
@@ -26,6 +28,11 @@ namespace ClientInfoSystem.Infrastructure.Services
         public async Task DeleteClient(int id)
         {
             var ls = await _clientRepository.GetByIdAsync(id);
+            var interList = await _interRepository.ListAsync(i => i.ClientId == id);
+            foreach (var inter in interList)
+            {
+                await _interRepository.DeleteAsync(inter);
+            }
             await _clientRepository.DeleteAsync(ls);
         }
 
@@ -37,6 +44,7 @@ namespace ClientInfoSystem.Infrastructure.Services
         public async Task<ClientResponseModel> UpdateClient(ClientCreateRequestModel clientCreateRequest)
         {
             var cli = await _clientRepository.GetByIdAsync(clientCreateRequest.Id);
+            if (cli == null) return null;
             cli.Name = clientCreateRequest.Name;
             cli.Phone = clientCreateRequest.Phone;
             cli.Email = clientCreateRequest.Email;

@@ -33,8 +33,12 @@ namespace ClientInfoSystem.API.Controllers
         [Route("Update")]
         public async Task<IActionResult> UpdateClient(InteractionCreateRequestModel clientCreateRequestModel)
         {
-            var client = await _interService.UpdateInteraction(clientCreateRequestModel);
-            return Ok(client);
+            var inter = await _interService.UpdateInteraction(clientCreateRequestModel);
+            if (inter == null)
+            {
+                return NotFound(new { message = "there is no such clients in the DB" });
+            }
+            return Ok(inter);
         }
         [HttpDelete]
         [Route("Delete/{id:int}")]

@@ -34,6 +34,10 @@ namespace ClientInfoSystem.API.Controllers
         public async Task<IActionResult> UpdateClient(ClientCreateRequestModel clientCreateRequestModel)
         {
             var client = await _clientService.UpdateClient(clientCreateRequestModel);
+            if (client == null)
+            {
+                return NotFound(new { message="there is no such clients in the DB"});
+            }
             return Ok(client);
         }
         [HttpDelete]

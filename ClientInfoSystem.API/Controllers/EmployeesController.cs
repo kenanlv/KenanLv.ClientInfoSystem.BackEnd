@@ -34,8 +34,12 @@ namespace ClientInfoSystem.API.Controllers
         [Route("Update")]
         public async Task<IActionResult> UpdateEmp(EmployeeCreateRequestModel empCreateRequestModel)
         {
-            var client = await _empService.UpdateEmp(empCreateRequestModel);
-            return Ok(client);
+            var emp = await _empService.UpdateEmp(empCreateRequestModel);
+            if (emp == null)
+            {
+                return NotFound(new { message = "there is no such clients in the DB" });
+            }
+            return Ok(emp);
         }
         [HttpDelete]
         [Route("Delete/{id:int}")]
