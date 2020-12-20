@@ -36,7 +36,7 @@ namespace ClientInfoSystem.API.Controllers
             var inter = await _interService.UpdateInteraction(clientCreateRequestModel);
             if (inter == null)
             {
-                return NotFound(new { message = "there is no such clients in the DB" });
+                return NotFound(new { message = "there is no such interactions in the DB" });
             }
             return Ok(inter);
         }

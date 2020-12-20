@@ -37,7 +37,7 @@ namespace ClientInfoSystem.API.Controllers
             var emp = await _empService.UpdateEmp(empCreateRequestModel);
             if (emp == null)
             {
-                return NotFound(new { message = "there is no such clients in the DB" });
+                return NotFound(new { message = "there is no such employees in the DB" });
             }
             return Ok(emp);
         }
