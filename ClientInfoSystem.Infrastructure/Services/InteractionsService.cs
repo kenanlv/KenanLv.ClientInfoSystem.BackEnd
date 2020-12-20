@@ -22,8 +22,7 @@ namespace ClientInfoSystem.Infrastructure.Services
         }
         public async Task<InteractionResponseModel> CreateInteraction(InteractionCreateRequestModel interactionCreateRequest)
         {
-            Interactions inter = InterReqModelToInter(interactionCreateRequest);
-            return InterToInterRespModel(await _interRepository.AddAsync(inter));
+            return InterToInterRespModel(await _interRepository.AddAsync(InterReqModelToInter(interactionCreateRequest)));
         }
 
         public async Task DeleteInteraction(int id)
@@ -59,7 +58,6 @@ namespace ClientInfoSystem.Infrastructure.Services
         {
             Interactions ret = new Interactions
             {
-                Id = interCreateRequestModel.Id,
                 ClientId = interCreateRequestModel.ClientId,
                 EmpId = interCreateRequestModel.EmpId,
                 Remarks = interCreateRequestModel.Remarks,

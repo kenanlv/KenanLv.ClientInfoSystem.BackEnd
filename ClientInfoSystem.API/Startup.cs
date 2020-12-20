@@ -38,15 +38,17 @@ namespace ClientInfoSystem.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClientInfoSystem.API", Version = "v1" });
             });
+            // DbContext set up
             services.AddDbContext<ClientInfoSysDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(("ClientInfoSysDbConnection"))));
-            // Add DI Repo
+
+            // Add Dependency Injection for Repo
             services.AddScoped<IAsyncRepository<Clients>, EfRepository<Clients>>();
             services.AddScoped<IAsyncRepository<Employees>, EfRepository<Employees>>();
             services.AddScoped<IAsyncRepository<Interactions>, EfRepository<Interactions>>();
 
 
-            // Add DI Service
+            // Add Dependency Injection for Service
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IEmployeesService, EmployeesService>();
             services.AddScoped<IInteractionsService, InteractionsService>();
@@ -62,6 +64,7 @@ namespace ClientInfoSystem.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClientInfoSystem.API v1"));
             }
+            // Resolving CORS for the frontend access to APIs
             app.UseCors(builder =>
             {
                 builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()

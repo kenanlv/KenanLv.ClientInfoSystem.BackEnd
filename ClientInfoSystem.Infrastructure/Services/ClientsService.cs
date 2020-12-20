@@ -20,8 +20,7 @@ namespace ClientInfoSystem.Infrastructure.Services
         }
         public async Task<ClientResponseModel> CreateClient(ClientCreateRequestModel clientCreateRequest)
         {
-            Clients client = ClientReqModelToClient(clientCreateRequest);
-            return ClientToClientRespModel(await _clientRepository.AddAsync(client));
+            return ClientToClientRespModel(await _clientRepository.AddAsync(ClientReqModelToClient(clientCreateRequest)));
         }
 
         public async Task DeleteClient(int id)
@@ -54,7 +53,8 @@ namespace ClientInfoSystem.Infrastructure.Services
                 Name = clientCreateRequestModel.Name,
                 Phone = clientCreateRequestModel.Phone,
                 Address = clientCreateRequestModel.Address,
-                Email = clientCreateRequestModel.Email
+                Email = clientCreateRequestModel.Email,
+                AddedOn = clientCreateRequestModel.AddedOn
             };
             return ret;
         }

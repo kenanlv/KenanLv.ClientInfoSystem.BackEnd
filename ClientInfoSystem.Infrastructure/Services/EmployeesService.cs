@@ -20,8 +20,7 @@ namespace ClientInfoSystem.Infrastructure.Services
         }
         public async Task<EmployeeResponseModel> CreateEmp(EmployeeCreateRequestModel empCreateRequest)
         {
-            Employees emp = EmpReqModelToEmp(empCreateRequest);
-            return EmpToEmpRespModel(await _empRepository.AddAsync(emp));
+            return EmpToEmpRespModel(await _empRepository.AddAsync(EmpReqModelToEmp(empCreateRequest)));
         }
 
         public async Task DeleteEmp(int id)

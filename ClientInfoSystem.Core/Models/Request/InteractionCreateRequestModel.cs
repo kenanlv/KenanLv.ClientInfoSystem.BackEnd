@@ -10,7 +10,7 @@ namespace ClientInfoSystem.Core.Models.Request
         public int Id { get; set; }
         public int? ClientId { get; set; }
         public int? EmpId { get; set; }
-        public char IntType { get; set; }
+        public char? IntType { get; set; }
         [MaxLength(50)]
         public string Remarks{ get; set; }
         public DateTime? IntDate { get; set; }

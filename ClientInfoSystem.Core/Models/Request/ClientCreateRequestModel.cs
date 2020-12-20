@@ -16,5 +16,6 @@ namespace ClientInfoSystem.Core.Models.Request
         public string Phone { get; set; }
         [MaxLength(50)]
         public string Address { get; set; }
+        public DateTime? AddedOn { get; set; }
     }
 }

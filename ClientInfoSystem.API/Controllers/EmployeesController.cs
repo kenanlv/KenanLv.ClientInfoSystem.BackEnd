@@ -51,7 +51,7 @@ namespace ClientInfoSystem.API.Controllers
             var ls = await _empService.ListAllEmps();
             if (!ls.Any())
             {
-                return NotFound(new { message = "No Clients" });
+                return NotFound(new { message = "No Employees" });
             }
             return Ok(ls);
         }
