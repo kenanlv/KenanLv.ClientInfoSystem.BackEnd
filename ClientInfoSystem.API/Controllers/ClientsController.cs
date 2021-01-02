@@ -44,7 +44,14 @@ namespace ClientInfoSystem.API.Controllers
         [Route("Delete/{id:int}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
-            await _clientService.DeleteClient(id);
+            try
+            {
+                await _clientService.DeleteClient(id);
+            }
+            catch (Exception e)
+            {
+                return NotFound(new { message = e.Message });
+            }
             return Ok();
         }
         [HttpGet]

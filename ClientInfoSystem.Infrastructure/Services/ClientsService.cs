@@ -28,6 +28,10 @@ namespace ClientInfoSystem.Infrastructure.Services
         public async Task DeleteClient(int id)
         {
             var ls = await _clientRepository.GetByIdAsync(id);
+            if (ls == null)
+            {
+                throw new Exception("Did not Found");
+            }
             var interList = await _interRepository.ListAsync(i => i.ClientId == id);
             foreach (var inter in interList)
             {
